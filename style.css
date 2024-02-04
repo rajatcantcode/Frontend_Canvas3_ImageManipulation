@@ -11,4 +11,5 @@ body {
 }
 .hidden {
   display: none;
+  background: transparent;
 }

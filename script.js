@@ -8,6 +8,30 @@ const img = document.querySelector("img");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
+const radius = 150;
+
+let isImage = false;
+
+function animateDot(dot, canvas) {
+  const rand = Math.random() * Math.PI * 2;
+
+  let x = Math.sin(rand) * radius + canvas.width / 2;
+  let y = Math.cos(rand) * radius + canvas.height / 2;
+  if (isImage) {
+    x = dot.imageX;
+    y = dot.imageY;
+  }
+
+  gsap.to(dot, {
+    x,
+    y,
+    duration: 1.7 + Math.random(),
+    onComplete: () => {
+      animateDot(dot, canvas);
+    },
+  });
+}
+
 //only start the function if the image if the image is fully loaded
 addEventListener("load", () => {
   //this will make a new version of our image
@@ -46,19 +70,36 @@ addEventListener("load", () => {
     }
   }
 
-  pixels.forEach((pixel) => {
-    dots.push(new Dot(pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 0));
+  pixels.forEach((pixel, i) => {
+    const imageX = pixel.x + canvas.width / 2 - img.naturalWidth / 2;
+    const imageY = pixel.y + canvas.height / 2 - img.naturalHeight / 2;
+
+    //forming the circle
+    let rand = Math.random() * Math.PI * 2;
+    const x = Math.sin(rand) * radius + canvas.width / 2;
+    const y = Math.cos(rand) * radius + canvas.height / 2;
+
+    rand = Math.random() * Math.PI * 2;
+    dots.push(new Dot(x, y, pixel.r, pixel.g, pixel.b, imageX, imageY));
+
+    animateDot(dots[i], canvas);
   });
 
   c.clearRect(0, 0, innerWidth, innerHeight);
 
   function animate() {
     requestAnimationFrame(animate);
+    c.clearRect(0, 0, innerWidth, innerHeight);
     dots.forEach((dot) => {
       dot.draw(c);
-      dot.x++;
+      // dot.x++;
     });
   }
 
   animate();
+});
+
+//event listener
+addEventListener("click", () => {
+  isImage = !isImage;
 });
