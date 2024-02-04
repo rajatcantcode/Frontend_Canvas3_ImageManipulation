@@ -100,6 +100,8 @@ addEventListener("load", () => {
 });
 
 //event listener
-addEventListener("click", () => {
+
+var button = document.querySelector("button");
+button.addEventListener("click", () => {
   isImage = !isImage;
 });

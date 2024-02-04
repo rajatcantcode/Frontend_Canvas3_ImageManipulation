@@ -11,5 +11,21 @@ body {
 }
 .hidden {
   display: none;
-  background: transparent;
+}
+.button {
+  position: absolute;
+  background-color: #3498db;
+  left: 50%;
+  top: 80%;
+  transform: translate(-50%, -50%);
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.button:hover {
+  background-color: #2980b9;
 }
